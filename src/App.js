@@ -5,9 +5,9 @@ function App() {
 
   const [word,setWord] = useState();
   const [meaning,setMeanning] = useState();
+  const [number,setNumber] = useState("");
 
   const generateKeyword = async()=>{
-    console.log("clicked");
    
 
     const options = {
@@ -39,12 +39,13 @@ function App() {
   }
 
   function sendMessage(one,two){
-    console.log(one ,two);
-    let number ='+919746736534'
-    let message = `${one}: ${two}`
-    let url = `https://web.whatsapp.com/send?phone=${number}`;
-    url += `&text=${encodeURI(message)}&app_absent=0`;
-    window.open(url);
+    if(number.length===10){
+      let message = `${one}: ${two}`
+      let url = `https://web.whatsapp.com/send?phone=${number}`;
+      url += `&text=${encodeURI(message)}&app_absent=0`;
+      window.open(url);
+    }
+   
 
   }
  
@@ -59,10 +60,13 @@ function App() {
        {/* <ReactWhatsapp number="+917293103936" message="Hello World!!!" /> */}
        {word ? <p className='h4 text-capitalize py-3 text-info'>{word}</p>:""}
        {meaning ? <p>{meaning}</p>:""}
-       <div className="col-md-2 ">
-         {meaning ? (<button onClick={((e)=>sendMessage(word,meaning))} className="border-0 shadow bg-success text-white px-3 py-2">
-         share
-       </button>):"" }
+       <div className="col-md-5 text-center mx-auto ">
+         {meaning ? (
+          <div className="numbers text-center">
+         <input type="number" className='my-3 w-100 outline-none' onChange={((e)=>setNumber(e.target.value))} max={10} min={10} required />
+         <button onClick={((e)=>sendMessage(word,meaning))} className="border-0 shadow bg-light text-primary border px-3 py-2" > <img src="https://pngimg.com/uploads/whatsapp/whatsapp_PNG95154.png" alt="" width={25} /> share</button>
+       </div>
+         ):"" }
        
        </div> 
        </div>
