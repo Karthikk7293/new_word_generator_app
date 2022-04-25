@@ -7,6 +7,7 @@ function App() {
   const [meaning,setMeanning] = useState();
   const [number,setNumber] = useState("");
   const [loading,setLoading] = useState(false);
+  const [err,setErr] = useState("");
 
   const generateKeyword = async()=>{
    setLoading(true);
@@ -28,7 +29,7 @@ function App() {
          if(!response.data.results[0].definition){
 
           setMeanning("oops can't find the meaning !")
-          setMeanning(null)
+          //  setMeanning(null)
          }else{
            setMeanning(response.data.results[0].definition);
 
@@ -43,10 +44,14 @@ function App() {
 
   function sendMessage(one,two){
     if(number.length===10){
+      setErr("")
       let message = `${one}: ${two}`
       let url = `https://web.whatsapp.com/send?phone=${number}`;
       url += `&text=${encodeURI(message)}&app_absent=0`;
       window.open(url);
+    }else{
+
+setErr("Please enter the Phone number Correctly !")
     }
    
 
@@ -70,14 +75,15 @@ function App() {
        ) : ""}
        {word ? <p className='h4 text-capitalize py-3 text-info'>{word}</p>:""}
        {meaning ? <p>{meaning}</p>:""}
-       <div className="col-md-5 text-center mx-auto ">
+       <div className="col-md-10 text-center mx-auto ">
 
          {meaning ? (
           <div className="numbers text-center">
-         <input type="number" className='my-3 w-100 outline-none' onChange={((e)=>setNumber(e.target.value))} max={10} min={10} required />
-         <button onClick={((e)=>sendMessage(word,meaning))} className="border-0 shadow bg-light text-primary border px-3 py-2" > <img src="https://pngimg.com/uploads/whatsapp/whatsapp_PNG95154.png" alt="" width={25} /> share</button>
+         <input type="number" className='my-3 w-100 text-center outline-none' onChange={((e)=>setNumber(e.target.value))} max={10} min={10} required />
+         {err ? <p className='text-danger' >{err}</p> : ""}
+         <button onClick={((e)=>sendMessage(word,meaning))} className=" rounded shadow bg-light text-primary border px-3 py-2" > <img src="https://pngimg.com/uploads/whatsapp/whatsapp_PNG95154.png" alt="" width={25} /> share</button>
        </div>
-         ):"" }
+         ):<p>{meaning}</p> }
        
        </div> 
        </div>
