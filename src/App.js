@@ -6,9 +6,10 @@ function App() {
   const [word,setWord] = useState();
   const [meaning,setMeanning] = useState();
   const [number,setNumber] = useState("");
+  const [loading,setLoading] = useState(false);
 
   const generateKeyword = async()=>{
-   
+   setLoading(true);
 
     const options = {
       method: 'GET',
@@ -23,7 +24,9 @@ function App() {
     axios.request(options).then(async (response) =>{
       
          setWord(response.data.word);
+         setLoading(false)
          if(!response.data.results[0].definition){
+
           setMeanning("oops can't find the meaning !")
           setMeanning(null)
          }else{
@@ -58,9 +61,17 @@ function App() {
          Generate New Word
        </button>
        {/* <ReactWhatsapp number="+917293103936" message="Hello World!!!" /> */}
+       {loading ? (
+         <div class="d-flex justify-content-center">
+         <div class="spinner-border" role="status">
+           <span class="visually-hidden">Loading...</span>
+         </div>
+       </div>
+       ) : ""}
        {word ? <p className='h4 text-capitalize py-3 text-info'>{word}</p>:""}
        {meaning ? <p>{meaning}</p>:""}
        <div className="col-md-5 text-center mx-auto ">
+
          {meaning ? (
           <div className="numbers text-center">
          <input type="number" className='my-3 w-100 outline-none' onChange={((e)=>setNumber(e.target.value))} max={10} min={10} required />
