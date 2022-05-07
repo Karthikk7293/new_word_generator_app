@@ -46,7 +46,7 @@ function App() {
     if(number.length===10){
       setErr("")
       let message = `${one}: ${two}`
-      let url = `https://web.whatsapp.com/send?phone=${number}`;
+      let url = `https://web.whatsapp.com/send?phone=+91${number}`;
       url += `&text=${encodeURI(message)}&app_absent=0`;
       window.open(url);
     }else{
